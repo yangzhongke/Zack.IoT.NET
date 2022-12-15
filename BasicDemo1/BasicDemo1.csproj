@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -13,6 +13,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Zack.IoT.NET\Zack.IoT.NET.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="libpython3.7m.so.1.0">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

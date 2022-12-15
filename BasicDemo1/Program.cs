@@ -91,6 +91,7 @@ using Python.Runtime;
 Runtime.PythonDLL = @"libpython3.7m.so.1.0";
 PythonEngine.Initialize();
 System.Console.WriteLine("xxxxxxxxxxx");
+LedStripAPA102C led = new LedStripAPA102C();
 using (Py.GIL())
 {
     dynamic np = Py.Import("numpy");
