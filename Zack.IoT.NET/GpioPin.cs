@@ -5,36 +5,42 @@ namespace Zack.IoT.NET
 {
     public class GpioPin : IDisposable
     {
-        private int pin;
+        private int pinNumber;
         public GpioController Controller { get; private set; }
-        public GpioPin(int pin, PinNumberingScheme pinNumberingScheme= PinNumberingScheme.Logical)
+        public GpioPin(int pinNumber, PinNumberingScheme pinNumberingScheme= PinNumberingScheme.Logical)
         {
-            this.pin = pin;
+            this.pinNumber = pinNumber;
             Controller = new GpioController(pinNumberingScheme);
         }
         public void Open(PinMode pinMode)
         {
-            if (Controller.IsPinOpen(pin))
+            Close();
+            Controller.OpenPin(pinNumber, pinMode);
+            if (!Controller.IsPinOpen(pinNumber))
             {
-                Controller.ClosePin(pin);
-            }
-            Controller.OpenPin(pin, pinMode);
-            if (!Controller.IsPinOpen(pin))
-            {
-                throw new InvalidOperationException($"Open pin {pin} failed.");
+                throw new InvalidOperationException($"Open pin {pinNumber} failed.");
             }
         }
+
+        public void Close()
+        {
+            if (Controller.IsPinOpen(pinNumber))
+            {
+                Controller.ClosePin(pinNumber);
+            }
+        }
+
         public PinValue Read()
         {
-            return Controller.Read(pin);
+            return Controller.Read(pinNumber);
         }
         public void Write(PinValue value)
         {
-            Controller.Write(pin, value);
+            Controller.Write(pinNumber, value);
         }
         public void Dispose()
         {
-            Controller.ClosePin(pin);
+            Close();
             Controller.Dispose();
         }
     }
