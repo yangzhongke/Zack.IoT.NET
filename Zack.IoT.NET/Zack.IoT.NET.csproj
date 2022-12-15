@@ -1,6 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
+		<LangVersion>Latest</LangVersion>
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="Iot.Device.Bindings" Version="2.2.0" />

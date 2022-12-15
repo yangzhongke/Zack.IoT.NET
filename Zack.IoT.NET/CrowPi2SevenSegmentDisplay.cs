@@ -7,11 +7,11 @@ namespace Zack.IoT.NET
     public class CrowPi2SevenSegmentDisplay : IDisposable
     {
         private I2cDevice i2cDevice;
-        private Large4Digit7SegmentDisplay sevenSegDisplay;
+        private My7Segment sevenSegDisplay;
         public CrowPi2SevenSegmentDisplay()
         {
             this.i2cDevice = I2cDevice.Create(new I2cConnectionSettings(1, 0x70));
-            this.sevenSegDisplay = new Large4Digit7SegmentDisplay(i2cDevice);
+            this.sevenSegDisplay = new My7Segment(i2cDevice);
             this.sevenSegDisplay.Clear();
         }
         public void Clear()

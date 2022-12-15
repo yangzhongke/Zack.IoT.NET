@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="pythonnet" Version="3.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Zack.IoT.NET\Zack.IoT.NET.csproj" />
   </ItemGroup>
 
