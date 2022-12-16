@@ -1,16 +1,41 @@
-﻿using System;
+﻿using Python.Runtime;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using static Python.Runtime.Py;
 
 namespace CrowPi2.NET
 {
     public static class CrowPi2Helpers
     {
-        public static void EnsureStarted()
+        private static GILState GL;
+        public static bool IsStarted()
         {
-            if (CrowPi2Engine.IsStarted()) return;
-            CrowPi2Engine.Start();
-            Console.CancelKeyPress += (_, _) => {
-                CrowPi2Engine.Stop();
+            return GL != null;
+        }
+        public static void Start()
+        {
+            if (IsStarted()) return;
+            Runtime.PythonDLL = @"libpython3.7m.so.1.0";
+            List<string> listPyPaths = new List<string>
+            {
+                PythonEngine.PythonPath,
+                "/usr/lib/python3/dist-packages",
+                "/usr/lib/python3.7/",
+                AppDomain.CurrentDomain.BaseDirectory
             };
+            listPyPaths.AddRange(Directory.GetFiles("/usr/local/lib/python3.7/dist-packages/", "*.egg"));
+            //it should go before PythonEngine.Initialize();
+            PythonEngine.PythonPath = string.Join(":", listPyPaths);
+            PythonEngine.Initialize();
+            GL = Py.GIL();
+        }
+        public static void Stop()
+        {
+            if (!IsStarted()) return;
+            GL.Dispose();
+            GL = null;
+            PythonEngine.Shutdown();
         }
     }
 }

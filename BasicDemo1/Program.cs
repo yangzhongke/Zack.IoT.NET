@@ -5,6 +5,37 @@ using Zack.IoT.NET;
 using Python.Runtime;
 using CrowPi2.NET;
 
+CrowPi2Helpers.Start();
+
+//Touch PIR Sensor
+/*
+RockerSensor sensor = new RockerSensor();
+while(true)
+{
+    int xChannel = 1, yChannel = 0;
+    int x = sensor.readChannel(xChannel);
+    int y = sensor.readChannel(yChannel);
+    Console.WriteLine($"{x},{y}");
+    if(x>650)
+    {
+        Console.WriteLine("左");
+    }
+    if (x <400)
+    {
+        Console.WriteLine("右");
+    }
+    if (y > 650)
+    {
+        Console.WriteLine("上");
+    }
+    if (y<400)
+    {
+        Console.WriteLine("下");
+    }
+}*/
+
+CrowPi2Helpers.Stop();
+
 //clock
 /*
 CrowPi2SevenSegmentDisplay segment = new CrowPi2SevenSegmentDisplay();

@@ -1,12 +1,10 @@
 ﻿using Iot.Device.Display;
 using Python.Runtime;
 using System;
-using System.Drawing;
-using System.Net.NetworkInformation;
 
 namespace CrowPi2.NET
 {
-    public class CrowPi2SevenSegmentDisplay
+    public class CrowPi2SevenSegmentDisplay:IDispose
     {
         public const int DEFAULT_ADDRESS = 0x70;
         public const int HT16K33_BLINK_CMD = 0x80;
@@ -21,7 +19,6 @@ namespace CrowPi2.NET
         private dynamic segment;
         public CrowPi2SevenSegmentDisplay()
         {
-            CrowPi2Helpers.EnsureStarted();
             PyModule sevenSegment = (PyModule)Py.Import("Adafruit_LED_Backpack.SevenSegment");
             this.segment = sevenSegment.Eval("SevenSegment(address=0x70)");
         }
@@ -176,6 +173,11 @@ namespace CrowPi2.NET
         public void print_hex(int value, bool justify_right= true)
         {
             this.segment.print_hex(value,justify_right);
+        }
+
+        public void Dispose()
+        {
+            this.segment.close();
         }
     }
 }
