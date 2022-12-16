@@ -24,11 +24,24 @@ while (true)
     Thread.Sleep(1000);
 }*/
 //七段走马灯
+/*
 CrowPi2SevenSegmentDisplay segment = new CrowPi2SevenSegmentDisplay();
-segment.clear();
-segment.set_digit_raw(0, Segment.Middle);
-segment.write_display();
-
+var data = new[] { new { Addr=0,Segment=Segment.Top} , new { Addr = 1, Segment = Segment.Top },
+                    new { Addr = 2, Segment = Segment.Top }, new { Addr=3,Segment=Segment.Top},
+new { Addr = 3, Segment = Segment.TopRight }, new { Addr=3,Segment=Segment.BottomRight},
+new { Addr = 3, Segment = Segment.Bottom }, new { Addr=2,Segment=Segment.Bottom},
+new { Addr = 1, Segment = Segment.Bottom }, new { Addr=0,Segment=Segment.Bottom},
+new { Addr = 0, Segment = Segment.BottomLeft }, new { Addr=0,Segment=Segment.TopLeft}};
+while (true)
+{
+    foreach (var item in data)
+    {
+        segment.clear();
+        segment.set_digit_raw(item.Addr, item.Segment);
+        segment.write_display();
+        Thread.Sleep(300);
+    }
+}*/
 
 //UltrasonicDistanceSensor
 /*
