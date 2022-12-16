@@ -2,6 +2,33 @@
 using System.Device.Gpio;
 using System.Device.I2c;
 using Zack.IoT.NET;
+using Python.Runtime;
+using CrowPi2.NET;
+
+//clock
+/*
+CrowPi2SevenSegmentDisplay segment = new CrowPi2SevenSegmentDisplay();
+bool b = false;
+while (true)
+{
+    segment.clear();
+    var now = DateTime.Now;
+    segment.set_digit(0, (now.Minute / 10));
+    segment.set_digit(1, now.Minute % 10);
+    segment.set_digit(2, now.Second / 10);
+    segment.set_digit(3, now.Second % 10);
+    //segment.set_digit(3, 'F');
+    segment.set_colon(b);
+    b = !b;
+    segment.write_display();
+    Thread.Sleep(1000);
+}*/
+//七段走马灯
+CrowPi2SevenSegmentDisplay segment = new CrowPi2SevenSegmentDisplay();
+segment.clear();
+segment.set_digit_raw(0, Segment.Middle);
+segment.write_display();
+
 
 //UltrasonicDistanceSensor
 /*
@@ -87,14 +114,3 @@ void Show(int i,Segment seg)
     Console.WriteLine(seg);
     Console.ReadKey();
 }*/
-using Python.Runtime;
-using CrowPi2.NET;
-
-Console.WriteLine("666");
-CrowPi2Engine.Start();
-
-
-PyModule backPack = (PyModule)Py.Import("Adafruit_LED_Backpack");
-dynamic sevenSeg = Py.Import("7Segment");
-sevenSeg.led();
-CrowPi2Engine.Stop();

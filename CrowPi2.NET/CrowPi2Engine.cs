@@ -9,8 +9,13 @@ namespace CrowPi2.NET
     public static class CrowPi2Engine
     {
         private static GILState GL;
+        public static bool IsStarted()
+        {
+            return GL != null;
+        }
         public static void Start()
         {
+            if (IsStarted()) return;
             Runtime.PythonDLL = @"libpython3.7m.so.1.0";
             List<string> listPyPaths = new List<string>
             {
@@ -21,13 +26,13 @@ namespace CrowPi2.NET
             listPyPaths.AddRange(Directory.GetFiles("/usr/local/lib/python3.7/dist-packages/", "*.egg"));
             //it should go before PythonEngine.Initialize();
             PythonEngine.PythonPath = string.Join(":", listPyPaths);
-            global::System.Console.WriteLine(PythonEngine.PythonPath);
             PythonEngine.Initialize();
             GL = Py.GIL();
         }
         public static void Stop()
         {
             GL.Dispose();
+            GL = null;
             PythonEngine.Shutdown();
         }
     }

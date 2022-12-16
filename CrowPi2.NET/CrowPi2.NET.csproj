@@ -1,17 +1,16 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+	  <LangVersion>Latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="pythonnet" Version="3.0.1" />
+	<PackageReference Include="Iot.Device.Bindings" Version="2.2.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="7Segment.py">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Update="Adafruit_LED_Backpack\AlphaNum4.py">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
