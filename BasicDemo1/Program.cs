@@ -88,27 +88,14 @@ void Show(int i,Segment seg)
     Console.ReadKey();
 }*/
 using Python.Runtime;
-Runtime.PythonDLL = @"libpython3.7m.so.1.0";
-PythonEngine.Initialize();
-System.Console.WriteLine("xxxxxxxxxxx");
-LedStripAPA102C led = new LedStripAPA102C();
-using (Py.GIL())
-{
-    dynamic np = Py.Import("numpy");
-    Console.WriteLine(np.cos(np.pi * 2));
+using CrowPi2.NET;
 
-    dynamic sin = np.sin;
-    Console.WriteLine(sin(5));
+Console.WriteLine("666");
+CrowPi2Engine.Start();
 
-    double c = (double)(np.cos(5) + sin(5));
-    Console.WriteLine(c);
 
-    dynamic a = np.array(new List<float> { 1, 2, 3 });
-    Console.WriteLine(a.dtype);
-
-    dynamic b = np.array(new List<float> { 6, 5, 4 }, dtype: np.int32);
-    Console.WriteLine(b.dtype);
-
-    Console.WriteLine(a * b);
-}
-PythonEngine.Shutdown();
+PyModule backPack = (PyModule)Py.Import("Adafruit_LED_Backpack");
+dynamic sevenSeg = Py.Import("7Segment");
+sevenSeg.test();
+Console.WriteLine(sevenSeg.add(1,5));
+CrowPi2Engine.Stop();

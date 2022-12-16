@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zack.IoT.NET", "Zack.IoT.NET\Zack.IoT.NET.csproj", "{0CAEA304-F40D-4E83-BDA6-9C82F7CA5BBF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zack.IoT.NET", "Zack.IoT.NET\Zack.IoT.NET.csproj", "{0CAEA304-F40D-4E83-BDA6-9C82F7CA5BBF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicDemo1", "BasicDemo1\BasicDemo1.csproj", "{14C673EB-8613-46C7-A6CD-FFD2C5385AAE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BasicDemo1", "BasicDemo1\BasicDemo1.csproj", "{14C673EB-8613-46C7-A6CD-FFD2C5385AAE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrowPi2.NET", "CrowPi2.NET\CrowPi2.NET.csproj", "{368B23AC-0EA2-4DEF-B719-E9D0EF0C3F60}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{14C673EB-8613-46C7-A6CD-FFD2C5385AAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{14C673EB-8613-46C7-A6CD-FFD2C5385AAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{14C673EB-8613-46C7-A6CD-FFD2C5385AAE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{368B23AC-0EA2-4DEF-B719-E9D0EF0C3F60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{368B23AC-0EA2-4DEF-B719-E9D0EF0C3F60}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{368B23AC-0EA2-4DEF-B719-E9D0EF0C3F60}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{368B23AC-0EA2-4DEF-B719-E9D0EF0C3F60}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

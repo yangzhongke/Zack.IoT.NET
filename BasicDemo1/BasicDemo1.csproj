@@ -8,17 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="pythonnet" Version="3.0.1" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <ProjectReference Include="..\CrowPi2.NET\CrowPi2.NET.csproj" />
     <ProjectReference Include="..\Zack.IoT.NET\Zack.IoT.NET.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="libpython3.7m.so.1.0">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>

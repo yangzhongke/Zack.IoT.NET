@@ -4,8 +4,9 @@ using System.Device.I2c;
 
 namespace Zack.IoT.NET
 {
-    public class CrowPi2SevenSegmentDisplay : IDisposable
+    public class CrowPi2SevenSegmentDisplay// : IDisposable
     {
+        /*
         private I2cDevice i2cDevice;
         private My7Segment sevenSegDisplay;
         public CrowPi2SevenSegmentDisplay()
@@ -34,6 +35,6 @@ namespace Zack.IoT.NET
         {
             this.i2cDevice.Dispose();
             this.sevenSegDisplay.Dispose();
-        }
+        }*/
     }
 }
