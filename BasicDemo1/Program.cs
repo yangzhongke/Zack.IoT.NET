@@ -96,6 +96,5 @@ CrowPi2Engine.Start();
 
 PyModule backPack = (PyModule)Py.Import("Adafruit_LED_Backpack");
 dynamic sevenSeg = Py.Import("7Segment");
-sevenSeg.test();
-Console.WriteLine(sevenSeg.add(1,5));
+sevenSeg.led();
 CrowPi2Engine.Stop();
