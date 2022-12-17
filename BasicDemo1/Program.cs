@@ -8,6 +8,18 @@ using System.Drawing;
 
 CrowPi2Helpers.Start();
 
+//DHT11
+var dht11 = new DHT11();
+while(true)
+{
+    (bool isValid, double temperature, double humidity) = dht11.Read();
+    if(isValid)
+    {
+        Console.WriteLine($"{isValid},{temperature},{humidity}");
+    }
+    Thread.Sleep(500);
+}
+
 //Pixcel Strip 1
 /*
 PixelStrip pixelStrip = new PixelStrip();
@@ -36,7 +48,8 @@ for(int x=0;x<8;x++)
         Thread.Sleep(100);
     }
 }*/
-
+//CharLCD
+/*
 CharLCD lcd = new CharLCD();
 lcd.Backlight = false;
 lcd.Message("Hello\nworld!");
@@ -69,7 +82,16 @@ Thread.Sleep(1000);
 lcd.Clear();
 lcd.Backlight = true;
 Console.WriteLine("done");
+*/
 
+//Light Sensor
+/*
+LightSensor lightSensor = new LightSensor();
+while(true)
+{
+    Console.WriteLine(lightSensor.ReadLight());
+    Thread.Sleep(500);
+}*/
 
 //Touch PIR Sensor
 /*
