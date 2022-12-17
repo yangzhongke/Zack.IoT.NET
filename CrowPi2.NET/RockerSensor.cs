@@ -1,9 +1,8 @@
 ﻿using Python.Runtime;
-using System;
 
 namespace CrowPi2.NET
 {
-    public class RockerSensor:IDisposable
+    public class RockerSensor
     {
         private dynamic sensor;
         public RockerSensor()
@@ -15,23 +14,18 @@ namespace CrowPi2.NET
             this.sensor.max_speed_hz = 1000000;
         }
 
-        public int[] xfer2(int[] values)
+        public int[] Xfer2(int[] values)
         {
             return sensor.xfer2(values);
         }
 
-        public int readChannel(int channel)
+        public int ReadChannel(int channel)
         {
-            var adc = xfer2(new int[] { 1, (8 + channel) << 4, 0 });
+            var adc = Xfer2(new int[] { 1, (8 + channel) << 4, 0 });
             return ((adc[1] & 3) << 8) + adc[2];
         }
 
-        public void close()
-        {
-            this.sensor.close();
-        }
-
-        public void Dispose()
+        public void Close()
         {
             this.sensor.close();
         }

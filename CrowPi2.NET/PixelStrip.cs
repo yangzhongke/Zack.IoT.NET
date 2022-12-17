@@ -8,12 +8,11 @@ namespace CrowPi2.NET
     {
         private dynamic device;
         private const int SIZE = 8;
-        public PixelStrip()
+        public PixelStrip(int pinNumber=12)
         {
             PyModule module = (PyModule)Py.Import("rpi_ws281x");
-            int pin = 12;
             int num = SIZE * SIZE;
-            this.device = module.Eval($"PixelStrip({num},{pin}, 800000, 10, False, 10,0)");
+            this.device = module.Eval($"PixelStrip({num},{pinNumber}, 800000, 10, False, 10,0)");
         }
 
         /// <summary>

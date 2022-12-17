@@ -22,6 +22,7 @@ for(int i=0;i<64;i++)
 pixelStrip.SetPixelColor(0, Color.Black);
 pixelStrip.Show();
 */
+/*
 PixelStrip pixelStrip = new PixelStrip();
 pixelStrip.Begin();
 Random rand = Random.Shared;
@@ -34,7 +35,40 @@ for(int x=0;x<8;x++)
         pixelStrip.Show();
         Thread.Sleep(100);
     }
+}*/
+
+CharLCD lcd = new CharLCD();
+lcd.Backlight = false;
+lcd.Message("Hello\nworld!");
+Thread.Sleep(1000);
+lcd.Clear();
+lcd.ShowCursor = true;
+lcd.Message("Show cursor");
+Thread.Sleep(1000);
+lcd.Clear();
+lcd.Blink = true;
+lcd.Message("Blink cursor");
+Thread.Sleep(1000);
+lcd.ShowCursor = false;
+lcd.Blink = false;
+lcd.Clear();
+string message = "Scroll";
+lcd.Message(message);
+int lcd_columns = 16;
+for(int i=0;i<lcd_columns-message.Length;i++)
+{
+    Thread.Sleep(500);
+    lcd.MoveRight();
 }
+for (int i = 0; i < lcd_columns - message.Length; i++)
+{
+    Thread.Sleep(500);
+    lcd.MoveLeft();
+}
+Thread.Sleep(1000);
+lcd.Clear();
+lcd.Backlight = true;
+Console.WriteLine("done");
 
 
 //Touch PIR Sensor

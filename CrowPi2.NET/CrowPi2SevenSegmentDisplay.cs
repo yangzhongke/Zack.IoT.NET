@@ -1,10 +1,11 @@
 ﻿using Iot.Device.Display;
 using Python.Runtime;
 using System;
+using UnitsNet;
 
 namespace CrowPi2.NET
 {
-    public class CrowPi2SevenSegmentDisplay:IDisposable
+    public class CrowPi2SevenSegmentDisplay
     {
         public const int DEFAULT_ADDRESS = 0x70;
         public const int HT16K33_BLINK_CMD = 0x80;
@@ -17,16 +18,16 @@ namespace CrowPi2.NET
         public const int HT16K33_OSCILLATOR = 0x01;
         public const int HT16K33_CMD_BRIGHTNESS = 0xE0;
         private dynamic segment;
-        public CrowPi2SevenSegmentDisplay()
+        public CrowPi2SevenSegmentDisplay(int address = 0x70)
         {
             PyModule sevenSegment = (PyModule)Py.Import("Adafruit_LED_Backpack.SevenSegment");
-            this.segment = sevenSegment.Eval("SevenSegment(address=0x70)");
+            this.segment = sevenSegment.Eval($"SevenSegment(address={address})");
         }
 
         /// <summary>
         /// Initialize driver with LEDs enabled and all turned off
         /// </summary>
-        public void begin()
+        public void Begin()
         {
             this.segment.begin();
         }
@@ -35,18 +36,24 @@ namespace CrowPi2.NET
         /// Blink display at specified frequency.  Note that frequency must be a value allowed by the HT16K33, specifically one of: HT16K33_BLINK_OFF, HT16K33_BLINK_2HZ, HT16K33_BLINK_1HZ, or HT16K33_BLINK_HALFHZ.
         /// </summary>
         /// <param name="frequency"></param>
-        public void set_blink(int frequency)
+        public int Blink
         {
-            this.segment.set_blink(frequency);
+            set
+            {
+                this.segment.set_blink(value);
+            }
         }
 
         /// <summary>
         /// Set brightness of entire display to specified value (16 levels, from 0 to 15).
         /// </summary>
         /// <param name="brightness"></param>
-        public void set_brightness(int brightness)
+        public int Brightness
         {
-            this.segment.set_brightness(brightness);
+            set
+            {
+                this.segment.set_brightness(value);
+            }
         }
 
         /// <summary>
@@ -54,7 +61,7 @@ namespace CrowPi2.NET
         /// </summary>
         /// <param name="led"></param>
         /// <param name="value"></param>
-        public void set_led(int led, bool value)
+        public void SetLed(int led, bool value)
         {
             this.segment.set_led(led, value);
         }
@@ -62,7 +69,7 @@ namespace CrowPi2.NET
         /// <summary>
         /// Write display buffer to display hardware
         /// </summary>
-        public void write_display()
+        public void WriteDisplay()
         {
             this.segment.write_display();
         }
@@ -70,7 +77,7 @@ namespace CrowPi2.NET
         /// <summary>
         /// Clear contents of display buffer.
         /// </summary>
-        public void clear()
+        public void Clear()
         {
             this.segment.clear();
         }
@@ -79,9 +86,12 @@ namespace CrowPi2.NET
         /// Set whether the display is upside-down or not
         /// </summary>
         /// <param name="invert"></param>
-        public void set_invert(bool invert)
+        public bool Invert
         {
-            this.segment.set_invert(invert);
+            set
+            {
+                this.segment.set_invert(value);
+            }
         }
 
         /// <summary>
@@ -89,14 +99,14 @@ namespace CrowPi2.NET
         /// </summary>
         /// <param name="pos"></param>
         /// <param name="bitMask"></param>
-        public void set_digit_raw(int pos, int bitMask)
+        public void SetDigitRaw(int pos, int bitMask)
         {
             this.segment.set_digit_raw(pos, bitMask);
         }
 
-        public void set_digit_raw(int pos, Segment bitMask)
+        public void SetDigitRaw(int pos, Segment bitMask)
         {
-            this.set_digit_raw(pos, (int)bitMask);
+            this.SetDigitRaw(pos, (int)bitMask);
         }
 
         /// <summary>
@@ -104,7 +114,7 @@ namespace CrowPi2.NET
         /// </summary>
         /// <param name="pos"></param>
         /// <param name="isDecimal"></param>
-        public void set_decimal(int pos, bool isDecimal)
+        public void SetDecimal(int pos, bool isDecimal)
         {
             this.segment.set_decimal(pos, isDecimal);
         }
@@ -114,7 +124,7 @@ namespace CrowPi2.NET
         /// <param name="pos"></param>
         /// <param name="digit">Digit should be a number 0-9, character A-F, space(all LEDs off), or dash(-)</param>
         /// <param name="isDecimal"></param>
-        public void set_digit(int pos, char digit, bool isDecimal = false)
+        public void SetDigit(int pos, char digit, bool isDecimal = false)
         {
             this.segment.set_digit(pos, digit, isDecimal);
         }
@@ -125,7 +135,7 @@ namespace CrowPi2.NET
         /// <param name="pos"></param>
         /// <param name="digit">0-9</param>
         /// <param name="isDecimal"></param>
-        public void set_digit(int pos, int digit, bool isDecimal = false)
+        public void SetDigit(int pos, int digit, bool isDecimal = false)
         {
             if(digit<0||digit>9)
             {
@@ -139,7 +149,7 @@ namespace CrowPi2.NET
         /// turn the colon on with show colon True, or off with show colon False.
         /// </summary>
         /// <param name="show_colon"></param>
-        public void set_colon(bool show_colon)
+        public void SetColon(bool show_colon)
         {
             this.segment.set_colon(show_colon);
         }
@@ -149,7 +159,7 @@ namespace CrowPi2.NET
         /// </summary>
         /// <param name="value"></param>
         /// <param name="justify_right"></param>
-        public void print_number_str(string value, bool justify_right= true)
+        public void PrintNumberStr(string value, bool justify_right= true)
         {
             this.segment.print_number_str(value, justify_right);
         }
@@ -160,7 +170,7 @@ namespace CrowPi2.NET
         /// <param name="value"></param>
         /// <param name="decimal_digits"></param>
         /// <param name="justify_right"></param>
-        public void print_float(float value, int decimal_digits= 2, bool justify_right= true)
+        public void PrintFloat(float value, int decimal_digits= 2, bool justify_right= true)
         {
             this.segment.print_float(value, decimal_digits, justify_right);
         }
@@ -170,12 +180,12 @@ namespace CrowPi2.NET
         /// </summary>
         /// <param name="value"></param>
         /// <param name="justify_right"></param>
-        public void print_hex(int value, bool justify_right= true)
+        public void PrintHex(int value, bool justify_right= true)
         {
             this.segment.print_hex(value,justify_right);
         }
 
-        public void Dispose()
+        public void Close()
         {
             this.segment.close();
         }
