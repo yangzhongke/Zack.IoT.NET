@@ -4,8 +4,38 @@ using System.Device.I2c;
 using Zack.IoT.NET;
 using Python.Runtime;
 using CrowPi2.NET;
+using System.Drawing;
 
 CrowPi2Helpers.Start();
+
+//Pixcel Strip 1
+/*
+PixelStrip pixelStrip = new PixelStrip();
+pixelStrip.Begin();
+for(int i=0;i<64;i++)
+{
+    pixelStrip.SetPixelColor(i, Color.Green);
+    pixelStrip.Brightness = i*3;
+    pixelStrip.Show();
+    Thread.Sleep(100);
+}
+pixelStrip.SetPixelColor(0, Color.Black);
+pixelStrip.Show();
+*/
+PixelStrip pixelStrip = new PixelStrip();
+pixelStrip.Begin();
+Random rand = Random.Shared;
+for(int x=0;x<8;x++)
+{
+    for(int y=0;y<8;y++)
+    {
+        Color c = Color.FromArgb(rand.Next(255), rand.Next(255), rand.Next(255));
+        pixelStrip[x, y] = c;
+        pixelStrip.Show();
+        Thread.Sleep(100);
+    }
+}
+
 
 //Touch PIR Sensor
 /*

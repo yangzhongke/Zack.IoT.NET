@@ -21,7 +21,8 @@ namespace CrowPi2.NET
             {
                 PythonEngine.PythonPath,
                 "/usr/lib/python3/dist-packages",
-                "/usr/lib/python3.7/",
+                "/usr/lib/python3.7",
+                "/usr/local/lib/python3.7/dist-packages",
                 AppDomain.CurrentDomain.BaseDirectory
             };
             listPyPaths.AddRange(Directory.GetFiles("/usr/local/lib/python3.7/dist-packages/", "*.egg"));

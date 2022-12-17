@@ -4,7 +4,7 @@ using System;
 
 namespace CrowPi2.NET
 {
-    public class CrowPi2SevenSegmentDisplay:IDispose
+    public class CrowPi2SevenSegmentDisplay:IDisposable
     {
         public const int DEFAULT_ADDRESS = 0x70;
         public const int HT16K33_BLINK_CMD = 0x80;
