@@ -44,6 +44,9 @@
     <None Update="Adafruit_LED_Backpack\__init__.pyc">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="CrowPi2KeyMatrix.py">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="DHT11.py">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

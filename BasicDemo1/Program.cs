@@ -8,7 +8,16 @@ using System.Drawing;
 
 CrowPi2Helpers.Start();
 
+//KeyMatrix
+CrowPi2KeyMatrix km = new CrowPi2KeyMatrix();
+while(true)
+{
+    Console.WriteLine(km.GetKeyNum()+","+km.GetAdcValue());
+    Thread.Sleep(200);
+}
+
 //DHT11
+/*
 var dht11 = new DHT11();
 while(true)
 {
@@ -18,7 +27,7 @@ while(true)
         Console.WriteLine($"{isValid},{temperature},{humidity}");
     }
     Thread.Sleep(500);
-}
+}*/
 
 //Pixcel Strip 1
 /*
