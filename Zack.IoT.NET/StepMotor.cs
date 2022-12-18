@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Device.Gpio;
 using System.Linq;
-using System.Net.NetworkInformation;
 using System.Threading;
 
 namespace Zack.IoT.NET
 {
-    public class StepMotor:IDisposable
+    public class StepMotor : IDisposable
     {
         private GpioPin pinA;
         private GpioPin pinB;
         private GpioPin pinC;
         private GpioPin pinD;
         private int interval;
+        private bool direction = true;
         public StepMotor(byte pinA, byte pinB, byte pinC, byte pinD, int interval = 1)
         {
             this.interval = interval;
@@ -29,74 +29,97 @@ namespace Zack.IoT.NET
             this.pinC.Write(false);
             this.pinD.Write(false);
         }
-        public void Step1()
+
+        public bool Direction
         {
-            pinD.Write(true);
-            Thread.Sleep(interval);
-            pinD.Write(false);
+            get { return direction; }
+            set { this.direction = value; }
         }
-        public void Step2()
+        private void Step1()
         {
-            pinD.Write(true);
-            pinC.Write(true);
+            pinD.Write(direction);
             Thread.Sleep(interval);
-            pinD.Write(false);
-            pinC.Write(false);
+            pinD.Write(!direction);
         }
-        public void Step3()
+        private void Step2()
         {
-            pinC.Write(true);
+            pinD.Write(direction);
+            pinC.Write(direction);
             Thread.Sleep(interval);
-            pinC.Write(false);
+            pinD.Write(!direction);
+            pinC.Write(!direction);
         }
-        public void Step4()
+        private void Step3()
         {
-            pinB.Write(true);
-            pinC.Write(true);
+            pinC.Write(direction);
             Thread.Sleep(interval);
-            pinB.Write(false);
-            pinC.Write(false);
+            pinC.Write(!direction);
         }
-        public void Step5()
+        private void Step4()
         {
-            pinB.Write(true);
+            pinB.Write(direction);
+            pinC.Write(direction);
             Thread.Sleep(interval);
-            pinB.Write(false);
+            pinB.Write(!direction);
+            pinC.Write(!direction);
         }
-        public void Step6()
+        private void Step5()
         {
-            pinA.Write(true);
-            pinB.Write(true);
+            pinB.Write(direction);
             Thread.Sleep(interval);
-            pinA.Write(false);
-            pinB.Write(false);
+            pinB.Write(!direction);
         }
-        public void Step7()
+        private void Step6()
         {
-            pinA.Write(true);
+            pinA.Write(direction);
+            pinB.Write(direction);
             Thread.Sleep(interval);
-            pinA.Write(false);
+            pinA.Write(!direction);
+            pinB.Write(!direction);
         }
-        public void Step8()
+        private void Step7()
         {
-            pinD.Write(true);
-            pinA.Write(true);
+            pinA.Write(direction);
             Thread.Sleep(interval);
-            pinD.Write(false);
-            pinA.Write(false);
+            pinA.Write(!direction);
+        }
+        private void Step8()
+        {
+            pinD.Write(direction);
+            pinA.Write(direction);
+            Thread.Sleep(interval);
+            pinD.Write(!direction);
+            pinA.Write(!direction);
         }
         public void Turn(int count)
         {
-            foreach (int i in Enumerable.Range(0, count))
+            if (direction)
             {
-                Step1();
-                Step2();
-                Step3();
-                Step4();
-                Step5();
-                Step6();
-                Step7();
-                Step8();
+                foreach (int i in Enumerable.Range(0, count))
+                {
+                    Step1();
+                    Step2();
+                    Step3();
+                    Step4();
+                    Step5();
+                    Step6();
+                    Step7();
+                    Step8();
+                }
+            }
+            else
+            {
+                foreach (int i in Enumerable.Range(0, count))
+                {
+                    Step8();
+                    Step7();
+                    Step6();
+                    Step5();
+                    Step4();
+                    Step3();
+                    Step2();
+                    Step1();
+                }
             }
         }
 
