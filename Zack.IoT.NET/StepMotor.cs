@@ -12,7 +12,6 @@ namespace Zack.IoT.NET
         private GpioPin pinC;
         private GpioPin pinD;
         private int interval;
-        private bool direction = true;
         public StepMotor(byte pinA, byte pinB, byte pinC, byte pinD, int interval = 1)
         {
             this.interval = interval;
@@ -29,69 +28,63 @@ namespace Zack.IoT.NET
             this.pinC.Write(false);
             this.pinD.Write(false);
         }
-
-        public bool Direction
-        {
-            get { return direction; }
-            set { this.direction = value; }
-        }
         private void Step1()
         {
-            pinD.Write(direction);
+            pinD.Write(true);
             Thread.Sleep(interval);
-            pinD.Write(!direction);
+            pinD.Write(false);
         }
         private void Step2()
         {
-            pinD.Write(direction);
-            pinC.Write(direction);
+            pinD.Write(true);
+            pinC.Write(true);
             Thread.Sleep(interval);
-            pinD.Write(!direction);
-            pinC.Write(!direction);
+            pinD.Write(false);
+            pinC.Write(false);
         }
         private void Step3()
         {
-            pinC.Write(direction);
+            pinC.Write(true);
             Thread.Sleep(interval);
-            pinC.Write(!direction);
+            pinC.Write(false);
         }
         private void Step4()
         {
-            pinB.Write(direction);
-            pinC.Write(direction);
+            pinB.Write(true);
+            pinC.Write(true);
             Thread.Sleep(interval);
-            pinB.Write(!direction);
-            pinC.Write(!direction);
+            pinB.Write(false);
+            pinC.Write(false);
         }
         private void Step5()
         {
-            pinB.Write(direction);
+            pinB.Write(true);
             Thread.Sleep(interval);
-            pinB.Write(!direction);
+            pinB.Write(false);
         }
         private void Step6()
         {
-            pinA.Write(direction);
-            pinB.Write(direction);
+            pinA.Write(true);
+            pinB.Write(true);
             Thread.Sleep(interval);
-            pinA.Write(!direction);
-            pinB.Write(!direction);
+            pinA.Write(false);
+            pinB.Write(false);
         }
         private void Step7()
         {
-            pinA.Write(direction);
+            pinA.Write(true);
             Thread.Sleep(interval);
-            pinA.Write(!direction);
+            pinA.Write(false);
         }
         private void Step8()
         {
-            pinD.Write(direction);
-            pinA.Write(direction);
+            pinD.Write(true);
+            pinA.Write(true);
             Thread.Sleep(interval);
-            pinD.Write(!direction);
-            pinA.Write(!direction);
+            pinD.Write(false);
+            pinA.Write(false);
         }
-        public void Turn(int count)
+        public void Turn(int count,bool direction=true)
         {
             if (direction)
             {
@@ -123,17 +116,17 @@ namespace Zack.IoT.NET
             }
         }
 
-        public void TurnSteps(int count)
+        public void TurnSteps(int count, bool direction = true)
         {
             foreach (int i in Enumerable.Range(0, count))
             {
-                Turn(1);
+                Turn(1, direction);
             }
         }
 
-        public void TurnDegrees(int count)
+        public void TurnDegrees(int count, bool direction = true)
         {
-            Turn((int)Math.Round(count * 512d / 360));
+            Turn((int)Math.Round(count * 512d / 360), direction);
         }
 
         public void Dispose()

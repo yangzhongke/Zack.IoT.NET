@@ -14,8 +14,7 @@ Console.WriteLine("Go...");
 CrowPi2Helpers.Start();
 
 using StepMotor stepMotor = new (5,6,13,25);
-stepMotor.Direction = false;
-stepMotor.TurnDegrees(360);
+stepMotor.TurnDegrees(90,false);
 
 //Servo SG90
 /*
