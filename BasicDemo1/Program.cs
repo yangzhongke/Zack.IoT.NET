@@ -5,37 +5,102 @@ using Zack.IoT.NET;
 using Python.Runtime;
 using CrowPi2.NET;
 using System.Drawing;
+using System.Text.Unicode;
+using System.Text;
 
 Console.WriteLine("Go...");
 
 CrowPi2Helpers.Start();
+
+//RFID的读写1
+/*
+var rdr = new RC522Rfid();
+var util = rdr.Util();
+util.Debug = false;
+Console.WriteLine("Waiting for tag");
+rdr.WaitForTag();//等待卡
+(var error, var _) = rdr.Request();
+if (error > 0) return;
+Console.WriteLine("检测到");
+(var e1, var uid) = rdr.Anticoll();
+if (e1 > 0) return;
+string card_data = uid[0] + "," + uid[1] + "," + uid[2] + "," + uid[3];
+Console.WriteLine("Card read UID: " + card_data);
+util.SetTag(uid);//选择该卡片
+util.Auth(rdr.Auth_b, new byte[] { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF });//对卡授权，默认授权码是 { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF }，可以修改，但是不建议修改，因为有可能导致卡被锁定。读授权
+util.ReadOut(4);//读取并打印第4块数据
+util.ReadOut(4);
+util.ReadOut(6);//读取并打印第6块数据
+util.Auth(rdr.Auth_a, new byte[] { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF });//进行不同授权。写授权
+util.DoAuth(util.BlockAddr(2, 1));//确认授权
+rdr.Write(9, new byte[] { 0x01, 0x23, 0x45, 0x67, 0x89, 0x98, 0x76, 0x54, 0x32, 0x10, 0x69, 0x27, 0x46, 0x66, 0x66, 0x64 });//在第9块写入数据
+util.Rewrite(9, new byte[] { 0, 0, 0xAB, 0xCD, 0xEF });//修改数据，0代表保持不变
+util.ReadOut(9);
+util.Dump();//打印卡信息
+util.Deauth();//必须停止*/
+
+/*
+var rdr = new RC522Rfid();
+var util = rdr.Util();
+Console.WriteLine("Waiting for tag");
+rdr.WaitForTag();//等待卡
+(var error, var _) = rdr.Request();
+if (error > 0) return;
+Console.WriteLine("检测到");
+(var e1, var uid) = rdr.Anticoll();
+if (e1 > 0) return;
+util.SetTag(uid);//选择该卡片
+util.Auth(rdr.Auth_b, new byte[] { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF });//对卡授权，默认授权码是 { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF }，可以修改，但是不建议修改，因为有可能导致卡被锁定。读授权
+util.Auth(rdr.Auth_a, new byte[] { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF });//进行不同授权。写授权
+util.DoAuth(1);//确认授权
+var a = rdr.Write(1, new byte[] { 1, 2, 3, 4, 5, 6, 0x76, 0x54, 0x32, 0x10, 0x69, 0x27, 0x46, 0x66, 0x66, 0x64 });//在第9块写入数据
+Console.WriteLine($"a={a}");
+util.ReadOut(1);
+util.Deauth();//必须停止
+*/
+
+/*
 var rdr = new RC522Rfid();
 var util = rdr.Util();
 util.Debug = true;
-while (true)
+while(true)
 {
-    rdr.WaitForTag();
+    Console.WriteLine("Select Mode: r for reading, w for writing");
+    var m = Console.ReadKey();
+    var ch = m.KeyChar;
+    if(ch != 'r'&& ch != 'w')
+    {
+        Console.WriteLine("only r and w are acceptable.");
+        continue;
+    }
+    Console.WriteLine("Waiting for tag");
+    rdr.WaitForTag();//等待卡
     (var error, var _) = rdr.Request();
-    if (error>0) continue;
-    Console.WriteLine("检测到");
+    if (error > 0) return;
+    Console.WriteLine("检测到卡");
     (var e1, var uid) = rdr.Anticoll();
-    if (e1 > 0) continue;
-    string card_data = uid[0] + "," + uid[1] + "," + uid[2] + "," + uid[3];
-    Console.WriteLine("Card read UID: " + card_data);
-    util.SetTag(uid);
+    if (e1 > 0) return;
+    util.SetTag(uid);//选择该卡片
     util.Auth(rdr.Auth_b, new byte[] { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF });
-    util.ReadOut(4);
-    util.ReadOut(4);
-    util.ReadOut(6);
-    util.Auth(rdr.Auth_a, new byte[] {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF});
-    util.DoAuth(util.BlockAddr(2, 1));
-    rdr.Write(9, new byte[] { 0x01, 0x23, 0x45, 0x67, 0x89, 0x98, 0x76, 0x54, 0x32, 0x10, 0x69, 0x27, 0x46, 0x66, 0x66, 0x64 });
-    util.Rewrite(9, new byte[] { 0,0, 0xAB, 0xCD, 0xEF});
-    util.ReadOut(9);
-    util.Dump();
+    Console.WriteLine("1111111:"+ util.DoAuth(9));
+    if (ch=='r')
+    {
+        (int err, byte[] data)=rdr.Read(9);
+        Console.WriteLine(Encoding.UTF8.GetString(data));
+        Console.WriteLine("Reading done");
+    }
+    else
+    {
+        string name = "abcdefgz12345678";
+        Console.WriteLine("2222222222:" + util.DoAuth(9));//确认授权
+        rdr.Write(9, Encoding.UTF8.GetBytes(name));//
+        Console.WriteLine("Writing done");
+    }
     util.Deauth();
-    Thread.Sleep(1000);
 }
+*/
+
+
 //KeyMatrix
 /*
 CrowPi2KeyMatrix km = new CrowPi2KeyMatrix();

@@ -1,4 +1,5 @@
 ﻿using Python.Runtime;
+using System;
 
 namespace CrowPi2.NET
 {
@@ -86,9 +87,9 @@ namespace CrowPi2.NET
             this.device.select_tag(uid);
         }
 
-        public void CardAuth(int auth_mode,int block_address,byte[] key, byte[] uid)
+        public int CardAuth(int auth_mode,int block_address,byte[] key, byte[] uid)
         {
-            this.device.card_auth(auth_mode,block_address,key,uid);
+            return this.device.card_auth(auth_mode,block_address,key,uid);
         }
 
         public (int error, byte[] back_data) StopCrypto()
@@ -113,9 +114,13 @@ namespace CrowPi2.NET
             }
         }
 
-        public void Write(int block_address, byte[] data)
+        public int Write(int block_address, byte[] data)
         {
-            this.device.write(block_address,data);
+            if(data.Length!=16)
+            {
+                throw new ArgumentOutOfRangeException(nameof(data),"length must be 16 exactly.");
+            }
+            return this.device.write(block_address,data);
         }
 
         public (int error, byte[] data) Read(int block_address)

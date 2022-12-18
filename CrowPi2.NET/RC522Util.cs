@@ -1,4 +1,6 @@
-﻿namespace CrowPi2.NET
+﻿using System;
+
+namespace CrowPi2.NET
 {
     public class RC522Util
     {
@@ -22,7 +24,8 @@
 
         public int BlockAddr(int sector,int block)
         {
-            return this.pyObj.block_addr(sector, block);
+            //return this.pyObj.block_addr(sector, block);
+            return sector * 4 + block;
         }
 
         public string SectorString(int block_address)
@@ -50,12 +53,13 @@
             return this.pyObj.is_tag_set_auth();
         }
 
-        public void DoAuth(int block_address, bool force= false)
+        public int DoAuth(int block_address, bool force= false)
         {
-            this.pyObj.do_auth(block_address, force);
+            int r = this.pyObj.do_auth(block_address, force);
+            return r;
         }
         
-        public bool WriteTrailer(int sector, byte[] key_a= null, byte[] auth_bits= null,
+        public int WriteTrailer(int sector, byte[] key_a= null, byte[] auth_bits= null,
                       byte user_data= 0x69, byte[] key_b= null)
         {
             if(key_a==null)
@@ -67,9 +71,9 @@
             return this.pyObj.write_trailer(sector,key_a,auth_bits,user_data,key_b);
         }
 
-        public void Rewrite(int block_address, byte[] new_bytes)
+        public int Rewrite(int block_address, byte[] new_bytes)
         {
-            this.pyObj.rewrite(block_address,new_bytes);
+            return this.pyObj.rewrite(block_address,new_bytes);
         }
 
         public void ReadOut(int block_address)
