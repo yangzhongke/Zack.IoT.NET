@@ -8,7 +8,7 @@ namespace CrowPi2.NET
     {
         private dynamic device;
         private const int SIZE = 8;
-        public PixelStrip(int pinNumber=12)
+        public PixelStrip(byte pinNumber =12)
         {
             PyModule module = (PyModule)Py.Import("rpi_ws281x");
             int num = SIZE * SIZE;
@@ -38,7 +38,7 @@ namespace CrowPi2.NET
         /// <param name="red"></param>
         /// <param name="green"></param>
         /// <param name="blue"></param>
-        public void SetPixelColor(int n, int red, int green, int blue)
+        public void SetPixelColor(int n, byte red, byte green, byte blue)
         {
             this.device.setPixelColorRGB(n, red, green, blue);
         }

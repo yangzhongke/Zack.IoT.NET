@@ -5,7 +5,7 @@ namespace CrowPi2.NET
     public class DHT11
     {
         private dynamic device;
-        public DHT11(int pin=4)
+        public DHT11(byte pin =4)
         {
             PyModule module = (PyModule)Py.Import("DHT11");
             this.device = module.Eval($"DHT11(pin={pin})");

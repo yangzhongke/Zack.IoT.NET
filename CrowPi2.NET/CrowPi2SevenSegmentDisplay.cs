@@ -7,18 +7,18 @@ namespace CrowPi2.NET
 {
     public class CrowPi2SevenSegmentDisplay
     {
-        public const int DEFAULT_ADDRESS = 0x70;
-        public const int HT16K33_BLINK_CMD = 0x80;
-        public const int HT16K33_BLINK_DISPLAYON = 0x01;
-        public const int HT16K33_BLINK_OFF = 0x00;
-        public const int HT16K33_BLINK_2HZ = 0x02;
-        public const int HT16K33_BLINK_1HZ = 0x04;
-        public const int HT16K33_BLINK_HALFHZ = 0x06;
-        public const int HT16K33_SYSTEM_SETUP = 0x20;
-        public const int HT16K33_OSCILLATOR = 0x01;
-        public const int HT16K33_CMD_BRIGHTNESS = 0xE0;
+        public const byte DEFAULT_ADDRESS = 0x70;
+        public const byte HT16K33_BLINK_CMD = 0x80;
+        public const byte HT16K33_BLINK_DISPLAYON = 0x01;
+        public const byte HT16K33_BLINK_OFF = 0x00;
+        public const byte HT16K33_BLINK_2HZ = 0x02;
+        public const byte HT16K33_BLINK_1HZ = 0x04;
+        public const byte HT16K33_BLINK_HALFHZ = 0x06;
+        public const byte HT16K33_SYSTEM_SETUP = 0x20;
+        public const byte HT16K33_OSCILLATOR = 0x01;
+        public const byte HT16K33_CMD_BRIGHTNESS = 0xE0;
         private dynamic segment;
-        public CrowPi2SevenSegmentDisplay(int address = 0x70)
+        public CrowPi2SevenSegmentDisplay(byte address = 0x70)
         {
             PyModule sevenSegment = (PyModule)Py.Import("Adafruit_LED_Backpack.SevenSegment");
             this.segment = sevenSegment.Eval($"SevenSegment(address={address})");

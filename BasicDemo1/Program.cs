@@ -6,15 +6,45 @@ using Python.Runtime;
 using CrowPi2.NET;
 using System.Drawing;
 
-CrowPi2Helpers.Start();
+Console.WriteLine("Go...");
 
+CrowPi2Helpers.Start();
+var rdr = new RC522Rfid();
+var util = rdr.Util();
+util.Debug = true;
+while (true)
+{
+    rdr.WaitForTag();
+    (var error, var _) = rdr.Request();
+    if (error>0) continue;
+    Console.WriteLine("检测到");
+    (var e1, var uid) = rdr.Anticoll();
+    if (e1 > 0) continue;
+    string card_data = uid[0] + "," + uid[1] + "," + uid[2] + "," + uid[3];
+    Console.WriteLine("Card read UID: " + card_data);
+    util.SetTag(uid);
+    util.Auth(rdr.Auth_b, new byte[] { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF });
+    util.ReadOut(4);
+    util.ReadOut(4);
+    util.ReadOut(6);
+    util.Auth(rdr.Auth_a, new byte[] {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF});
+    util.DoAuth(util.BlockAddr(2, 1));
+    rdr.Write(9, new byte[] { 0x01, 0x23, 0x45, 0x67, 0x89, 0x98, 0x76, 0x54, 0x32, 0x10, 0x69, 0x27, 0x46, 0x66, 0x66, 0x64 });
+    util.Rewrite(9, new byte[] { 0,0, 0xAB, 0xCD, 0xEF});
+    util.ReadOut(9);
+    util.Dump();
+    util.Deauth();
+    Thread.Sleep(1000);
+}
 //KeyMatrix
+/*
 CrowPi2KeyMatrix km = new CrowPi2KeyMatrix();
 while(true)
 {
     Console.WriteLine(km.GetKeyNum()+","+km.GetAdcValue());
     Thread.Sleep(200);
-}
+}*/
+
 
 //DHT11
 /*
