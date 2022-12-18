@@ -7,10 +7,22 @@ using CrowPi2.NET;
 using System.Drawing;
 using System.Text.Unicode;
 using System.Text;
+using System.Device.Pwm.Drivers;
 
 Console.WriteLine("Go...");
 
 CrowPi2Helpers.Start();
+
+using StepMotor stepMotor = new (5,6,13,25);
+stepMotor.TurnDegrees(360);
+
+//Servo SG90
+/*
+using SoftwarePwmChannel pwmChannel = new SoftwarePwmChannel(19, frequency: 50);
+pwmChannel.Start();
+pwmChannel.DutyCycle = 0.5;
+Thread.Sleep(500);
+pwmChannel.Stop();*/
 
 //RFID的读写1
 /*
