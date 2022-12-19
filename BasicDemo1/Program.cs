@@ -8,13 +8,49 @@ using System.Drawing;
 using System.Text.Unicode;
 using System.Text;
 using System.Device.Pwm.Drivers;
+using System;
+using Iot.Device.Tcs3472x;
 
 Console.WriteLine("Go...");
-
 CrowPi2Helpers.Start();
 
+AccelerometerAndGyro acc = new AccelerometerAndGyro();
+while(true)
+{
+    var g = acc.ReadGyro();
+    var ac = acc.ReadAcceleration();
+    Console.WriteLine($"{g},{ac}");
+    Thread.Sleep(200);
+}
+/*
+using I2cDevice deviceGyroXHigh = I2cDevice.Create(new I2cConnectionSettings(1, 0x43));
+using I2cDevice deviceGyroXLow = I2cDevice.Create(new I2cConnectionSettings(1, 0x43+1));
+using I2cDevice devicePower = I2cDevice.Create(new I2cConnectionSettings(1, 0x68));
+devicePower.WriteByte(0x6b)
+while (true)
+{
+    byte xHigh = deviceGyroXHigh.ReadByte();
+    byte xLow = deviceGyroXLow.ReadByte();
+    int x = (xHigh << 8) + xLow;
+    Console.WriteLine(x);
+}*/
+
+/*
+using GpioPin pin = new GpioPin(19);
+pin.Open(PinMode.Input);
+while(true)
+{
+    Console.WriteLine(pin.Read());
+}*/
+
+//StepMotor
+/*
 using StepMotor stepMotor = new (5,6,13,25);
-stepMotor.TurnDegrees(90,false);
+foreach(int i in Enumerable.Range(0,5))
+{
+    stepMotor.TurnDegrees(90, true);
+    stepMotor.TurnDegrees(90, false);
+}*/
 
 //Servo SG90
 /*

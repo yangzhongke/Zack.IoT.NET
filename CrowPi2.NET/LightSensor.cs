@@ -1,19 +1,28 @@
-﻿using Python.Runtime;
+﻿using System;
 
 namespace CrowPi2.NET
 {
-    public class LightSensor
+    public class LightSensor:IDisposable
     {
-        private dynamic device;
-        public LightSensor()
+        private SMBus bus = new SMBus(1);
+        private const byte DEVICE = 0x5c;
+        private const byte ONE_TIME_HIGH_RES_MODE_1 = 0x20;
+
+        private double convertToNumber(byte[] data)
         {
-            PyModule module = (PyModule)Py.Import("LightSensor");
-            this.device = module.Eval($"LightSensor()");
+            return ((data[1] + (256 * data[0])) / 1.2);
         }
+        
 
         public double ReadLight()
         {
-            return this.device.readLight();
+            var data = bus.Read_I2C_BlockData(DEVICE, ONE_TIME_HIGH_RES_MODE_1);
+            return convertToNumber(data);
+        }
+
+        public void Dispose()
+        {
+            this.bus.Dispose();
         }
     }
 }
